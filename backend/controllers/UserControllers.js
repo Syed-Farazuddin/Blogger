@@ -107,7 +107,9 @@ const updateProfile = async (req, res, next) => {
     if (req.body.password && req.body.password.length < 6) {
       throw new Error("Password length be at least 6 characters");
     } else if (req.body.password) {
-      user.password = req.body.password;
+      const password = req.body.password;
+      const hashPass = await bcrypt.hash(password, 10);
+      user.password = hashPass;
     }
     const updatedUserProfile = await user.save();
     const token = await json.sign({ id: user._id }, process.env.JSON_SECRET, {
@@ -118,6 +120,7 @@ const updateProfile = async (req, res, next) => {
       name: updatedUserProfile.name,
       avatar: updatedUserProfile.avatar,
       email: updatedUserProfile.email,
+      password: updatedUserProfile.password,
       token: token,
       verified: updatedUserProfile.verified,
       admin: updatedUserProfile.admin,
