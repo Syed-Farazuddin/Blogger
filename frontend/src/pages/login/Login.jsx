@@ -1,20 +1,26 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Layout from "../../components/Layout";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { signIn } from "../../../services/index/Users";
 import toast from "react-hot-toast";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { userAction } from "../../stores/reducers/userReducer.js";
 function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userState = useSelector((state) => state.user);
   const { mutate, isLoading } = useMutation({
     mutationFn: ({ email, password }) => {
       return signIn({ email, password });
     },
     onSuccess: (data) => {
       console.log(data);
+      toast.success("Login successfullt");
+      dispatch(userAction.serUserInfo(data));
+      localStorage.setItem("account", JSON.stringify(data));
       navigate("/login");
     },
     onError: (error) => {
@@ -32,6 +38,13 @@ function Login() {
     },
     mode: "onChange",
   });
+
+  useEffect(() => {
+    if (userState.userInfo) {
+      navigate("/");
+    }
+  }, [userState.userInfo, navigate]);
+
   const submitHandler = async (data) => {
     const { email, password } = data;
     mutate({ email, password });

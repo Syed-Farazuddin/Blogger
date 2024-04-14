@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Layout from "../../components/Layout";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { signup } from "../../../services/index/Users";
 import toast from "react-hot-toast";
-
+import { useDispatch, useSelector } from "react-redux";
 function Register() {
+  const dispatch = useDispatch();
+  const userState = useSelector((state) => state.user);
   const navigate = useNavigate();
   const { mutate, isLoading } = useMutation({
     mutationFn: ({ name, email, password }) => {
@@ -39,6 +41,12 @@ function Register() {
     const { name, email, password } = data;
     mutate({ name, email, password });
   };
+
+  useEffect(() => {
+    if (userState.userInfo) {
+      navigate("/");
+    }
+  }, [userState.userInfo, navigate]);
   return (
     <Layout>
       <section className="container mx-auto px-5 py-10 ">
