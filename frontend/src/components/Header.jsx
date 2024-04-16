@@ -3,8 +3,16 @@ import { images } from "../constants";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../stores/actions/user";
 
 function Header() {
+  const dispatch = useDispatch();
+  const userState = useSelector((state) => state.user);
+  console.log(userState);
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
   const navItems = [
     { id: 132, name: "Home", type: "link" },
     { id: 138, name: "Articles", type: "link" },
@@ -85,12 +93,28 @@ function Header() {
                 </div>
               )
             )}
-            <Link
-              to={"/login"}
-              className="text-[#1565D8] border-[2px] font-semibold hover:bg-[#1565D8] hover:text-white transition-all duration-200 border-[#1565D8] px-6 py-2 rounded-full mt-5 md:mt-0"
-            >
-              Sign in
-            </Link>
+            {
+              // console.log(userState.user);
+              userState.userInfo ? (
+                <>
+                  <button
+                    onClick={logoutHandler}
+                    className="text-[#1565D8] border-[2px] font-semibold hover:bg-[#1565D8] hover:text-white transition-all duration-200 border-[#1565D8] px-6 py-2 rounded-full mt-5 md:mt-0"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to={"/login"}
+                    className="text-[#1565D8] border-[2px] font-semibold hover:bg-[#1565D8] hover:text-white transition-all duration-200 border-[#1565D8] px-6 py-2 rounded-full mt-5 md:mt-0"
+                  >
+                    Sign in
+                  </Link>
+                </>
+              )
+            }
           </ul>
         </div>
       </header>
