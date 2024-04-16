@@ -103,6 +103,7 @@ function Header() {
                   >
                     Logout
                   </button>
+                  <Link to={"/profile"}>Profile</Link>
                 </>
               ) : (
                 <>
