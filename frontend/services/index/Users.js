@@ -33,3 +33,23 @@ export const signup = async ({ name, email, password }) => {
     throw new Error(e.message);
   }
 };
+
+export const getUserProfile = async ({ token }) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      "http://localhost:4000/api/users/profile",
+      config
+    );
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message);
+    throw new Error(error.message);
+  }
+};
