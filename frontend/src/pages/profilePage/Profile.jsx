@@ -13,7 +13,7 @@ function Profile() {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isLoading: UpdateProfileIsLoading } = useMutation({
     mutationFn: ({ name, email, password }) => {
       return updateProfile({
         token: userState.userInfo.token,
@@ -23,7 +23,7 @@ function Profile() {
     onSuccess: (data) => {
       dispatch(userAction.serUserInfo(data));
       localStorage.setItem("account", JSON.stringify(data));
-      queryClient.invalidateQueries(["profile"])
+      queryClient.invalidateQueries(["profile"]);
       toast.success("Profile updated successfully");
     },
     onError: (error) => {
@@ -159,7 +159,7 @@ function Profile() {
             <button
               type="submit"
               className="bg-primary text-white my-6 px-8 py-4 font-bold w-full rounded-lg disabled:opacity-70 disabled:cursor-not-allowed"
-              disabled={!isValid || profileIsLoading}
+              disabled={!isValid || UpdateProfileIsLoading || profileIsLoading}
             >
               Update
             </button>
