@@ -1,10 +1,23 @@
 import { useState } from "react";
 import { stables } from "../constants";
 import { HiOutlineCamera } from "react-icons/hi";
+import { createPortal } from "react-dom";
+import CropEasy from "./crop/CropEasy";
 function ProfilePicture({ avatar }) {
   const [openCrop, setOpenCrop] = useState(false);
+  const [photo, setPhoto] = useState(null);
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setPhoto({ url: URL.createObjectURL(file), file: file });
+    setOpenCrop(true);
+  };
   return (
     <>
+      {openCrop &&
+        createPortal(
+          <CropEasy photo={photo} setOpenCrop={setOpenCrop} />,
+          document.getElementById("portal")
+        )}
       <div className="w-full flex items-center gap-x-4">
         <div className="relative w-20 h-20 rounded-full outline outline-offset-2 outline-1 outline-primary overflow-hidden ">
           <label
@@ -22,7 +35,12 @@ function ProfilePicture({ avatar }) {
               </div>
             )}
           </label>
-          <input type="file" className="sr-only" id="profilePicture" />
+          <input
+            type="file"
+            onChange={handleFileChange}
+            className="sr-only"
+            id="profilePicture"
+          />
         </div>
         <button
           type="button"
