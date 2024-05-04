@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-// import bcrypt from "bcrypt";
+
 const userSchema = mongoose.Schema(
   {
     avatar: {
@@ -34,9 +34,6 @@ const userSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-// userSchema.methods.comparePassword = async function (enteredPassword) {
-//   return await bcrypt.compare(enteredPassword, this.password);
-// };
 const User = mongoose.model("user", userSchema);
 
 export default User;

@@ -122,7 +122,6 @@ function Login() {
                 </p>
               )}
             </div>
-
             <Link
               to={"/forgot-password"}
               className="text-primary font-semibold text-sm"

@@ -1,13 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { stables } from "../constants";
 import { HiOutlineCamera } from "react-icons/hi";
-import CropEasy from "./crop/CropEasy";
 function ProfilePicture({ avatar }) {
   const [openCrop, setOpenCrop] = useState(false);
   return (
     <>
-      {openCrop && <CropEasy />}
-      <CropEasy />
       <div className="w-full flex items-center gap-x-4">
         <div className="relative w-20 h-20 rounded-full outline outline-offset-2 outline-1 outline-primary overflow-hidden ">
           <label

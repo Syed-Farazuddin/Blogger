@@ -4,7 +4,6 @@ import Layout from "../../components/Layout";
 import { getUserProfile, updateProfile } from "../../../services/index/Users";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import ProfilePicture from "../../components/ProfilePicture";
 import { toast } from "react-hot-toast";
 import { userAction } from "../../stores/reducers/userReducer";
@@ -40,7 +39,9 @@ function Profile() {
     },
     queryKey: ["profile"],
   });
-  console.log(`data from profile page ${profileData}`);
+  if (profileData) {
+    console.log(`data from profile page`, profileData);
+  }
   const {
     register,
     handleSubmit,
