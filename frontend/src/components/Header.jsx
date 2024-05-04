@@ -9,7 +9,6 @@ import { logout } from "../stores/actions/user";
 function Header() {
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
-  console.log(userState);
   const logoutHandler = () => {
     dispatch(logout());
   };

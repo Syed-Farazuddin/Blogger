@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ProfilePicture from "../../components/ProfilePicture";
 import { toast } from "react-hot-toast";
 import { userAction } from "../../stores/reducers/userReducer";
+
 function Profile() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -39,9 +40,6 @@ function Profile() {
     },
     queryKey: ["profile"],
   });
-  if (profileData) {
-    console.log(`data from profile page`, profileData);
-  }
   const {
     register,
     handleSubmit,
